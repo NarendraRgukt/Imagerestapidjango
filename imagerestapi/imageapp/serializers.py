@@ -1,14 +1,12 @@
 from rest_framework import serializers
-from imageapp.models import Image,UserProfile
+
 from django.contrib.auth import authenticate,get_user_model
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
+from imageapp.models import Image
 
 
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Image
-        fields="__all__"
+
+
+
         
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,6 +38,14 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
         return user
+    
+
+    # image_api/serializers.py
+
+
+
+
+
 
 
 class UserTokenGenerationSerializer(serializers.Serializer):
@@ -63,6 +69,11 @@ class UserTokenGenerationSerializer(serializers.Serializer):
     
     
 
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Image
+        fields="__all__"
 
 
 

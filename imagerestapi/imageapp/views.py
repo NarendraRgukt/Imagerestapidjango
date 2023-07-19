@@ -18,28 +18,32 @@ from rest_framework import viewsets
 from rest_framework.settings import api_settings
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser
+
+from rest_framework import generics
+
+class ImageMultiPartParser(MultiPartParser):
+    media_type = 'image/*'
 
 
 class ImageViewSet(viewsets.ModelViewSet):
     serializer_class=ImageSerializer
     authentication_classes=[authentication.TokenAuthentication]
     permission_classes=[permissions.IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser,ImageMultiPartParser]
     
     
     def get_queryset(self):
-        return Image.objects.filter(user=self.request.user.id)
+        return Image.objects.all()
     
     @action(detail=True, methods=['get'])
     def download(self, request, pk=None):
         image = self.get_object()
         return FileResponse(image.image, content_type='image/jpeg')
+        
 
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
-    
 
 
 class CreateUserApiView(generics.CreateAPIView):
@@ -68,9 +72,28 @@ class UserManageApiView(generics.RetrieveUpdateAPIView):
 
 
 
+class ItemListCreation(generics.CreateAPIView):
+    serializer_class = ImageSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Image.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        images = request.FILES.getlist('images')  # Access uploaded images from request.FILES
+        image_data_list = []
+        
+        for image in images:
+            image_data_list.append({'image': image})
 
+        serializer = self.get_serializer(data=image_data_list, many=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_bulk_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def perform_bulk_create(self, serializer):
+        serializer.save()
     
+
 
     
 

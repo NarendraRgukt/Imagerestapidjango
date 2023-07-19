@@ -46,12 +46,18 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
 
 
 class Image(models.Model):
-    user=models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
-    image=models.ImageField(upload_to="media")
+
+    image=models.ImageField(upload_to="images/")
     
 
     def __str__(self):
         return f"{self.user.name} image"
+
+
+
+
+
+
 
 
 
