@@ -1,5 +1,5 @@
 # Imagerestapidjango
-# user-authentication-restapi
+
 Here are the various end points that I created in this project<br>
 POST-http://127.0.0.1:8000/api/account/create/user/<br>
 This endpoint is used to create user by providing the user details<br>
