@@ -221,6 +221,47 @@ Response Body:<br>
   "image": "string"<br>
 }<br>
 
+<h1>POST:/api/image/list/create/</h1><br>
+This api endpoint is used to create the list of images at a same time.<br>
+Add the token in the header and send the list of images in the field name of images<br>
+
+
+
+Request Body:<br>
+{<br>
+'images':'string'
+}<br>
+
+Response:<br>
+
+STATUS:201 CREATED<br>
+
+Response Body:<br>
+[{<br>
+  "id": 0,<br>
+  "image": "string"<br>
+}<br>
+
+]<br>
+
+<h1>GET:/api/image/{id}/download/</h1><br>
+This api endpoint is used to download the image itself instead of getting the details of the image<br>
+Add the token in the header
+Query Parameters:<br>
+{<br>
+'id':integer<br>
+}<br>
+
+
+
+
+Response:<br>
+
+STATUS:200 OK<br>
+
+Response Body:<br>
+Image<br>
+
 
 <h1>DELETE:/api/image/{id}/</h1><br>
 This api endpoint is used to update the certain fields of a particular image<br>
